@@ -9,7 +9,7 @@ class Game extends GUI{
   
   //<-------------    Stats   --------------------->
   int cooldown = 100;
-  float bulletSpeed = 10;
+  float bulletSpeed = 20;
   int attackDamage = 5;
   int maxHealth=20;
   
@@ -406,24 +406,30 @@ public class Bullet extends Entity{
   
   
   public void render(Room room){
+    float oldX = x;
+    float oldY = y;
     x+=velX;
     y+=velY;
     if(x > room.sizeX)isDone=true;
     if(y > room.sizeY)isDone=true;
     if(x < 0)isDone=true;
     if(y < 0)isDone=true;
-    for(Entity i : room.entities)if(i instanceof Shootable){
-      Shootable s = (Shootable)i;
-      if(s.isShootable(isPlayerBullet) && s.collides(x, y, size)){
-        s.onShoot(this);
-        isDone=true;
-        println("hit!");
+    for(int n=0; n<4; n++){
+      for(Entity i : room.entities)if(i instanceof Shootable){
+        Shootable s = (Shootable)i;
+        if(s.isShootable(isPlayerBullet) && s.collides(map(n, 0, 3, oldX, x), map(n, 0, 3, oldY, y), size)){
+          s.onShoot(this);
+          isDone=true;
+          println("hit!");
+          break;
+        }
       }
-    }
-    if(!isPlayerBullet){
-      if(getDistance(room.game.shipX, room.game.shipY, x, y) < 10+size){
-        room.game.health-=damage;
-        isDone=true;
+      if(!isPlayerBullet){
+        if(getDistance(room.game.shipX, room.game.shipY, map(n, 0, 3, oldX, x), map(n, 0, 3, oldY, y)) < 10+size){
+          room.game.health-=damage;
+          isDone=true;
+          break;
+        }
       }
     }
     noStroke();
