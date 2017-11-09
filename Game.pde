@@ -205,7 +205,7 @@ class Game extends GUI{
     return 10;
   }
   public float getAcceleration(){
-    return 1;
+    return .4;
   }
   
   public int getWidth(int w, int h){

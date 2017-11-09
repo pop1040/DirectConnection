@@ -4,19 +4,19 @@ class Enemy extends Entity implements Shootable{
   
   ArrayList<Coord> path = new ArrayList<Coord>();
   
-  int maxSpeed = 8;
+  int maxSpeed = 6;
   int pathIndex = 0;
   float acceleration = .2;
   int health=100;
   int maxHealth=100;
   long lastHit=0;
   long fireTimer =0;
-  int bulletSpeed = 4;
+  int bulletSpeed = 3;
   int attackDamage=4;
   
   public Enemy(float x, float y, Room room){
     super(x, y);
-    for(int i=0, m=5+(int)random(4); i<m; i++)path.add(new Coord(random(room.sizeX), random(room.sizeY)));
+    for(int i=0, m=6+(int)random(4); i<m; i++)path.add(new Coord(random(room.sizeX), random(room.sizeY)));
   }
   
   
